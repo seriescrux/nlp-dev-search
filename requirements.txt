@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+together
+numpy
+faiss-cpu
+faker
+python-dotenv

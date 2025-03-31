@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HireWay - Smart Candidate Search</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="brand-container">
+                <div class="logo-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="brand-text">
+                    <h1 class="logo">HireWay</h1>
+                    <p class="tagline">Intelligent Talent Matching</p>
+                </div>
+            </div>
+            <div class="header-visual">
+                <div class="visual-element"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="search-container">
+            <div class="search-input-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Search for skills, job titles, or experience..." autocomplete="off">
+            </div>
+            <button class="search-btn">
+                <span>Search</span>
+            </button>
+        </div>
+
+        <div id="loading" class="loading-indicator">
+            <div class="spinner"></div>
+            <span>Finding matching candidates...</span>
+        </div>
+
+        <div id="results" class="results-grid"></div>
+    </main>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        let searchTimeout;
+        
+        // Search on input with debounce
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(search, 500);
+        });
+        
+        // Also allow Enter key for immediate search
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                clearTimeout(searchTimeout);
+                search();
+            }
+        });
+
+        async function search() {
+            const query = searchInput.value.trim();
+            if (!query) {
+                document.getElementById('results').innerHTML = '';
+                return;
+            }
+
+            const loading = document.getElementById('loading');
+            loading.style.display = 'flex';
+            
+            try {
+                const response = await fetch('http://localhost:8000/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: query })
+                });
+
+                const data = await response.json();
+                displayResults(data.results);
+            } catch (error) {
+                console.error('Search error:', error);
+                document.getElementById('results').innerHTML = 
+                    '<div class="error">Error loading results. Please try again.</div>';
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        function displayResults(profiles) {
+            const container = document.getElementById('results');
+            
+            if (!profiles || profiles.length === 0) {
+                container.innerHTML = '<div class="no-results">No matching profiles found. Try a different search.</div>';
+                return;
+            }
+
+            container.innerHTML = profiles.map(profile => `
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            ${profile.name.split(' ').map(n => n[0]).join('')}
+                        </div>
+                        <div class="profile-info">
+                            <h3>${profile.name}</h3>
+                            <div class="profile-title">${profile.title}</div>
+                        </div>
+                        <span class="similarity-badge">${(profile.similarity * 100).toFixed(1)}% match</span>
+                    </div>
+                    <div class="profile-skills">
+                        ${profile.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                    </div>
+                    <p class="profile-summary">${profile.summary}</p>
+                    <div class="profile-footer">
+                        <span class="experience"><i class="fas fa-briefcase"></i> ${profile.experience}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
