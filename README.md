@@ -74,6 +74,3 @@ The goal of this project is to showcase how NLP techniques can be integrated int
 ## Contributing
 
 Contributions are welcome! Please feel free to submit pull requests or open issues to suggest improvements or report bugs.
-## Contributing
-
-Contributions are welcome! Please feel free to submit pull requests or open issues to suggest improvements or report bugs.
