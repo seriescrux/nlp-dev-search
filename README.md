@@ -14,7 +14,7 @@ The goal of this project is to showcase how NLP techniques can be integrated int
 **Key Components:**
 
 * **Backend (`backend/`)**:
-    * Implemented using Python.
+    * Implemented using Python and FastAPI.
     * Handles the search logic, NLP processing, and data retrieval.
     * Uses a virtual environment (`.venv`) for dependency management.
     * The `search.py` file contains the core NLP-powered search functionality.
@@ -26,6 +26,8 @@ The goal of this project is to showcase how NLP techniques can be integrated int
     * `app.js` handles the client-side logic and communication with the backend.
 
 ## Getting Started
+
+**STEP 1 - Install Dependencies:**
 
 1.  **Clone the repository:**
     ```bash
@@ -47,9 +49,19 @@ The goal of this project is to showcase how NLP techniques can be integrated int
 
 4.  **Create a `.env` file (if needed) and add your environment variables.**
 
-5.  **Run the backend application (refer to backend documentation for specific commands, likely `python main.py`).**
+**STEP 2 - Run the Backend:**
 
-6.  **Open `frontend/index.html` in your web browser to access the frontend.**
+1.  **Open the `backend` folder in your terminal or IDE.**
+2.  **Start the FastAPI server:**
+    ```bash
+    uvicorn app.main:app --reload
+    ```
+
+**STEP 3 - Open the Frontend:**
+
+1.  **Open a new terminal window.**
+2.  **Navigate to the `frontend` directory.**
+3.  **Open `index.html` in your web browser. You can typically do this by simply double-clicking the file in your file explorer, or by dragging and dropping it into your browser window.**
 
 ## Future Enhancements
 
@@ -59,6 +71,9 @@ The goal of this project is to showcase how NLP techniques can be integrated int
 * Improve the frontend user interface and user experience.
 * Implement testing for both backend and frontend.
 
+## Contributing
+
+Contributions are welcome! Please feel free to submit pull requests or open issues to suggest improvements or report bugs.
 ## Contributing
 
 Contributions are welcome! Please feel free to submit pull requests or open issues to suggest improvements or report bugs.
