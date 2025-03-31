@@ -18,10 +18,3 @@
     * **`styles.css`**: CSS stylesheets for styling the webpage.
 * **`README.md`**: This file, providing project documentation.
 * **`requirements.txt`**: Lists the Python dependencies required for the backend.
-
-**Key Points:**
-
-* Clear separation of backend and frontend.
-* Use of a virtual environment for dependency management.
-* Emphasis on not committing the `.env` file.
-* Standard web development structure for the frontend.
