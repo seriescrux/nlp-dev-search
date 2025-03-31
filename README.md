@@ -1,18 +1,27 @@
 # nlp-dev-search
 
-NLP_DEV_SEARCH/
-├── .venv/            # Virtual environment for Python dependencies
-├── backend/          # Backend application directory
-│   └── app/          # Core application logic
-│       ├── __pycache__/ # Compiled Python files (automatically generated)
-│       ├── __init__.py  # Makes 'app' a Python package
-│       ├── fake_data.py  # Contains fake/dummy data (likely for testing)
-│       ├── main.py      # Main entry point for the backend application
-│       └── search.py    # Search functionality logic
-├── .env              # Environment variables (e.g., API keys, database credentials)
-├── frontend/         # Frontend application directory
-│   ├── app.js         # JavaScript application logic
-│   ├── index.html     # Main HTML file for the frontend
-│   └── styles.css     # CSS stylesheets for styling the frontend
-├── README.md         # Project documentation and information
-└── requirements.txt  # List of Python dependencies for the backend
+**Explanation:**
+
+* **`NLP_DEV_SEARCH/`**: The root directory of the project.
+* **`.venv/`**: A virtual environment for Python dependencies, ensuring project isolation.
+* **`backend/`**: Contains the server-side code, likely written in Python.
+    * **`app/`**: Holds the core application logic.
+        * **`__pycache__/`**: Automatically generated directory for compiled Python files.
+        * **`__init__.py`**: Makes the `app` directory a Python package.
+        * **`fake_data.py`**: Used for generating dummy data during development.
+        * **`main.py`**: The main entry point for the backend application.
+        * **`search.py`**: Implements the search functionality.
+* **`.env`**: Stores environment variables (API keys, etc.). **Crucially, this file should not be committed to version control.**
+* **`frontend/`**: Contains the client-side code (HTML, CSS, JavaScript).
+    * **`app.js`**: JavaScript code for interactive elements and logic.
+    * **`index.html`**: The main HTML file that defines the webpage structure.
+    * **`styles.css`**: CSS stylesheets for styling the webpage.
+* **`README.md`**: This file, providing project documentation.
+* **`requirements.txt`**: Lists the Python dependencies required for the backend.
+
+**Key Points:**
+
+* Clear separation of backend and frontend.
+* Use of a virtual environment for dependency management.
+* Emphasis on not committing the `.env` file.
+* Standard web development structure for the frontend.
