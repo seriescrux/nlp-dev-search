@@ -1,4 +1,4 @@
-# HIREWAY (NLP_DEV_SEARCH) - Natural Language Powered Search Application
+# HIREWAY (NLP_DEV_SEARCH) - Natural Language Powered Search Application Using TOGETHER AI
 
 This project is a demonstration of a web application that leverages Natural Language Processing (NLP) to enhance search functionality. It consists of a backend (Python) and a frontend (HTML, CSS, JavaScript) designed to provide users with more intuitive and context-aware search results.
 
