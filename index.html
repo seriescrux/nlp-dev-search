@@ -12,7 +12,7 @@
     <header>
         <div class="header-content">
             <div class="brand-container">
-                <div class="logo-icon">
+                <div class="logo-icon" aria-hidden="true">
                     <i class="fas fa-user-tie"></i>
                 </div>
                 <div class="brand-text">
@@ -29,50 +29,63 @@
     <main class="container">
         <div class="search-container">
             <div class="search-input-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="searchInput" placeholder="Search for skills, job titles, or experience..." autocomplete="off">
+                <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search for skills, job titles, or experience..." 
+                    autocomplete="off"
+                    aria-label="Search for skills, job titles, or experience"
+                >
             </div>
-            <button class="search-btn">
+            <button class="search-btn" id="searchBtn">
                 <span>Search</span>
             </button>
         </div>
 
-        <div id="loading" class="loading-indicator">
-            <div class="spinner"></div>
+        <div id="loading" class="loading-indicator" style="display: none;">
+            <div class="spinner" aria-hidden="true"></div>
             <span>Finding matching candidates...</span>
         </div>
 
-        <div id="results" class="results-grid"></div>
+        <div id="results" class="results-grid" aria-live="polite"></div>
     </main>
 
     <script>
         const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const resultsContainer = document.getElementById('results');
+        const loading = document.getElementById('loading');
         let searchTimeout;
-        
-        // Search on input with debounce
-        searchInput.addEventListener('input', function() {
+
+        // Debounced input handler
+        searchInput.addEventListener('input', () => {
             clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(search, 500);
+            searchTimeout = setTimeout(handleSearch, 500);
         });
-        
-        // Also allow Enter key for immediate search
-        searchInput.addEventListener('keypress', function(e) {
+
+        // Immediate search on Enter key
+        searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 clearTimeout(searchTimeout);
-                search();
+                handleSearch();
             }
         });
 
-        async function search() {
+        // Search on button click
+        searchBtn.addEventListener('click', () => {
+            clearTimeout(searchTimeout);
+            handleSearch();
+        });
+
+        async function handleSearch() {
             const query = searchInput.value.trim();
             if (!query) {
-                document.getElementById('results').innerHTML = '';
+                resultsContainer.innerHTML = '';
                 return;
             }
 
-            const loading = document.getElementById('loading');
-            loading.style.display = 'flex';
-            
+            toggleLoading(true);
             try {
                 const response = await fetch('http://localhost:8000/search', {
                     method: 'POST',
@@ -80,46 +93,70 @@
                     body: JSON.stringify({ text: query })
                 });
 
+                if (!response.ok) throw new Error('Network response was not ok');
+
                 const data = await response.json();
-                displayResults(data.results);
+                displayResults(data?.results, query);
             } catch (error) {
                 console.error('Search error:', error);
-                document.getElementById('results').innerHTML = 
-                    '<div class="error">Error loading results. Please try again.</div>';
+                resultsContainer.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        Error loading results. Please try again.
+                    </div>`;
             } finally {
-                loading.style.display = 'none';
+                toggleLoading(false);
             }
         }
 
-        function displayResults(profiles) {
-            const container = document.getElementById('results');
-            
-            if (!profiles || profiles.length === 0) {
-                container.innerHTML = '<div class="no-results">No matching profiles found. Try a different search.</div>';
+        function displayResults(profiles, query) {
+            if (!profiles?.length) {
+                resultsContainer.innerHTML = `
+                    <div class="no-results">
+                        No matching profiles found for "<strong>${query}</strong>".
+                    </div>`;
                 return;
             }
 
-            container.innerHTML = profiles.map(profile => `
+            resultsContainer.innerHTML = profiles.map(profile => `
                 <div class="profile-card">
                     <div class="profile-header">
-                        <div class="profile-avatar">
+                        <div class="profile-avatar" aria-hidden="true">
                             ${profile.name.split(' ').map(n => n[0]).join('')}
                         </div>
                         <div class="profile-info">
-                            <h3>${profile.name}</h3>
-                            <div class="profile-title">${profile.title}</div>
+                            <h3>${escapeHTML(profile.name)}</h3>
+                            <div class="profile-title">${escapeHTML(profile.title)}</div>
                         </div>
                         <span class="similarity-badge">${(profile.similarity * 100).toFixed(1)}% match</span>
                     </div>
                     <div class="profile-skills">
-                        ${profile.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                        ${profile.skills.map(skill => `<span class="skill-tag">${escapeHTML(skill)}</span>`).join('')}
                     </div>
-                    <p class="profile-summary">${profile.summary}</p>
+                    <p class="profile-summary">${escapeHTML(profile.summary)}</p>
                     <div class="profile-footer">
-                        <span class="experience"><i class="fas fa-briefcase"></i> ${profile.experience}</span>
+                        <span class="experience">
+                            <i class="fas fa-briefcase"></i> ${escapeHTML(profile.experience)}
+                        </span>
                     </div>
                 </div>
             `).join('');
+        }
+
+        function toggleLoading(isLoading) {
+            loading.style.display = isLoading ? 'flex' : 'none';
+            searchBtn.disabled = isLoading;
+            searchInput.disabled = isLoading;
+        }
+
+        function escapeHTML(text) {
+            return text.replace(/[&<>"']/g, (match) => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            }[match]));
         }
     </script>
 </body>

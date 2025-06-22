@@ -10,7 +10,9 @@
     --success: #4bb543;
 }
 
-* {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -27,14 +29,14 @@ body {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 2rem 0;
 }
 
-/* Enhanced Header */
+/* ========== Header ========== */
 header {
     background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white;
-    padding: 3rem 0 4rem;
+    color: #fff;
+    padding: 4rem 0;
     margin-bottom: 2rem;
     position: relative;
     overflow: hidden;
@@ -51,7 +53,7 @@ header {
 .brand-container {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 1.5rem;
 }
 
 .logo-icon {
@@ -65,27 +67,22 @@ header {
     justify-content: center;
 }
 
-.brand-text {
-    display: flex;
-    flex-direction: column;
-}
-
-.logo {
+.brand-text .logo {
     font-size: 2.8rem;
     font-weight: 700;
-    margin-bottom: 0.3rem;
     letter-spacing: 1px;
+    margin-bottom: 0.3rem;
 }
 
 .tagline {
-    font-size: 1.2rem;
-    opacity: 0.9;
+    font-size: 1.1rem;
     font-weight: 300;
+    opacity: 0.85;
 }
 
 .header-visual {
-    position: relative;
     width: 40%;
+    position: relative;
 }
 
 .visual-element {
@@ -100,17 +97,16 @@ header {
 }
 
 @keyframes float {
-    0% { transform: translateY(0) rotate(0deg); }
+    0%, 100% { transform: translateY(0) rotate(0deg); }
     50% { transform: translateY(-20px) rotate(5deg); }
-    100% { transform: translateY(0) rotate(0deg); }
 }
 
-/* Search Section */
+/* ========== Search Section ========== */
 .search-container {
     display: flex;
-    gap: 10px;
+    gap: 0.75rem;
     margin-bottom: 2rem;
-    margin-top: -30px;
+    margin-top: -2rem;
     position: relative;
     z-index: 3;
 }
@@ -122,7 +118,7 @@ header {
 
 .search-icon {
     position: absolute;
-    left: 20px;
+    left: 1.25rem;
     top: 50%;
     transform: translateY(-50%);
     color: var(--gray);
@@ -131,12 +127,12 @@ header {
 
 #searchInput {
     width: 100%;
-    padding: 15px 20px 15px 50px;
+    padding: 0.9rem 1rem 0.9rem 3rem;
     border: 2px solid var(--light-gray);
     border-radius: 8px;
     font-size: 1rem;
+    background: #fff;
     transition: all 0.3s ease;
-    background: white;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
@@ -148,16 +144,16 @@ header {
 
 .search-btn {
     background-color: var(--primary);
-    color: white;
+    color: #fff;
     border: none;
-    padding: 0 25px;
+    padding: 0 1.5rem;
     border-radius: 8px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
     transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -167,13 +163,19 @@ header {
     transform: translateY(-2px);
 }
 
-/* Loading Indicator */
+.search-btn:disabled {
+    background-color: var(--gray);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* ========== Loading Indicator ========== */
 .loading-indicator {
     display: none;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 20px;
+    gap: 0.75rem;
+    padding: 1.5rem;
     color: var(--gray);
 }
 
@@ -190,38 +192,38 @@ header {
     to { transform: rotate(360deg); }
 }
 
-/* Results Grid */
+/* ========== Results Grid ========== */
 .results-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 20px;
+    gap: 1.25rem;
 }
 
 .profile-card {
-    background: white;
+    background: #fff;
     border-radius: 10px;
     padding: 1.5rem;
+    border: 1px solid var(--light-gray);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
-    border: 1px solid var(--light-gray);
 }
 
 .profile-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     background-color: var(--darker);
-    color: white;
+    color: #fff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 .profile-card:hover .profile-title,
 .profile-card:hover .profile-summary,
 .profile-card:hover .experience {
-    color: white !important;
+    color: #fff !important;
 }
 
 .profile-card:hover .skill-tag {
     background-color: rgba(255, 255, 255, 0.2);
-    color: white;
+    color: #fff;
 }
 
 .profile-header {
@@ -229,14 +231,14 @@ header {
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 1rem;
-    gap: 15px;
+    gap: 1rem;
 }
 
 .profile-avatar {
     width: 50px;
     height: 50px;
     background-color: var(--primary);
-    color: white;
+    color: #fff;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -245,18 +247,14 @@ header {
     flex-shrink: 0;
 }
 
-.profile-info {
-    flex: 1;
-}
-
-.profile-header h3 {
+.profile-info h3 {
     font-size: 1.3rem;
     color: var(--dark);
     margin-bottom: 0.2rem;
 }
 
 .profile-card:hover h3 {
-    color: white;
+    color: #fff;
 }
 
 .profile-title {
@@ -269,13 +267,13 @@ header {
 .profile-skills {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 0.5rem;
     margin-bottom: 1rem;
 }
 
 .skill-tag {
     background-color: var(--light-gray);
-    padding: 4px 12px;
+    padding: 0.25rem 0.75rem;
     border-radius: 20px;
     font-size: 0.8rem;
     color: var(--gray);
@@ -292,20 +290,22 @@ header {
     color: var(--gray);
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 0.3rem;
 }
 
 .similarity-badge {
     background-color: var(--success);
-    color: white;
-    padding: 5px 10px;
+    color: #fff;
+    padding: 0.3rem 0.75rem;
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 600;
     flex-shrink: 0;
 }
 
-.no-results, .error {
+/* ========== Feedback Messages ========== */
+.no-results,
+.error {
     text-align: center;
     grid-column: 1 / -1;
     padding: 2rem;
@@ -313,33 +313,40 @@ header {
     font-size: 1.1rem;
 }
 
+.error i {
+    color: var(--primary);
+    margin-right: 0.3rem;
+}
+
+/* ========== Responsive ========== */
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;
         text-align: center;
-        gap: 20px;
+        gap: 1.25rem;
     }
-    
+
     .brand-container {
         flex-direction: column;
+        align-items: center;
     }
-    
+
     .header-visual {
         width: 100%;
         display: flex;
         justify-content: center;
     }
-    
+
     .visual-element {
         position: relative;
         top: 0;
         right: auto;
     }
-    
+
     .search-container {
         flex-direction: column;
     }
-    
+
     .results-grid {
         grid-template-columns: 1fr;
     }
